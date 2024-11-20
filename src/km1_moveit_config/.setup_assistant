@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: km1
+    relative_path: urdf/km1.urdf
+    xacro_args: ""
+  SRDF:
+    relative_path: config/km1.srdf
+  CONFIG:
+    author_name: JayChen
+    author_email: czt.zju@zju.edu.cn
+    generated_timestamp: 1731808414

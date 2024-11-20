@@ -1,0 +1,210 @@
+# # # km1:
+# # # # MoveIt-specific simulation settings
+# # #   moveit_sim_hw_interface:
+# # #     joint_model_group: controllers_initial_group_
+# # #     joint_model_group_pose: controllers_initial_pose_
+# # # # Settings for ros_control control loop
+# # #   generic_hw_control_loop:
+# # #     loop_hz: 300
+# # #     cycle_time_error_threshold: 0.01
+# # # # Settings for ros_control hardware interface
+# # #   hardware_interface:
+# # #     joints:
+# # #       - joint1
+# # #       - joint2
+# # #       - joint3
+# # #       - joint4
+# # #       - joint5
+# # #       - joint6
+# # #     sim_control_mode: 1  # 0: position, 1: velocity
+# # # # Publish all joint states
+# # # # Creates the /joint_states topic necessary in ROS
+# # #   joint_state_controller:
+# # #     type: joint_state_controller/JointStateController
+# # #     publish_rate: 50
+# # #   controller_list:
+# # #     []
+# # # Publish joint states
+# # joint_state_controller:
+# #     type: joint_state_controller/JointStateController
+# #     publish_rate: 50
+
+# # # Configure effort-based trajectory controller for the Panda arm
+# # km1:
+# #   arm_joint_controller:
+# #     type: "position_controllers/JointTrajectoryController"
+# #     joints:
+# #       - joint1
+# #       - joint2
+# #       - joint3
+# #       - joint4
+# #       - joint5
+# #       - joint6
+
+# #     gains:
+# #       joint1:   {p: 1000.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+# #       joint2:   {p: 1000.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+# #       joint3:   {p: 1000.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+# #       joint4:   {p: 1000.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+# #       joint5:   {p: 1000.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+# #       joint6:   {p: 1000.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+
+# #     state_publish_rate: 25
+# #     constraints:
+# #         goal_time: 2.0
+
+
+# # # Declare available controllers for MoveIt
+
+# # controller_manager_ns: controller_manager
+# # controller_list:
+# #   - name: km1/arm_joint_controller
+# #     action_ns: follow_joint_trajectory
+# #     type: FollowJointTrajectory
+# #     default: true
+# #     joints:
+# #       - joint1
+# #       - joint2
+# #       - joint3
+# #       - joint4
+# #       - joint5
+# #       - joint6
+# # initial:  # Define initial robot poses per group
+# #   - group: manipulator
+# #     pose: home
+# # # Publish joint_states
+# # joint_state_controller:
+# #   type: joint_state_controller/JointStateController
+# #   publish_rate: 50
+# joint_state_controller:
+#     type: joint_state_controller/JointStateController
+#     publish_rate: 50
+
+# # Configure effort-based trajectory controller for the Panda arm
+# km1:
+#   arm_joint_controller:
+#     type: "position_controllers/JointTrajectoryController"
+#     joints:
+#       - joint1
+#       - joint2
+#       - joint3
+#       - joint4
+#       - joint5
+#       - joint6
+#     constraints:
+#       goal_time: 2.0
+#       stopped_velocity_tolerance: 0  # 停止时的速度容忍度
+#       joint1:
+#         goal: 0.01  # 每个关节的目标容忍度（位置误差）
+#         trajectory: 0.01  # 轨迹跟踪误差容忍度
+#       joint2:
+#         goal: 0.01
+#         trajectory: 0.01
+#       joint3:
+#         goal: 0.01  # 放宽 joint3 的位置误差要求
+#         trajectory: 0.01
+#       joint4:
+#         goal: 0.01
+#         trajectory: 0.01
+#       joint5:
+#         goal: 0.01
+#         trajectory: 0.01
+#       joint6:
+#         goal: 0.01
+#         trajectory: 0.01
+
+#     gains:
+#       joint1:   {p: 100.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+#       joint2:   {p: 100.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+#       joint3:   {p: 100.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+#       joint4:   {p: 100.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+#       joint5:   {p: 100.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+#       joint6:   {p: 100.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+
+#     state_publish_rate: 50
+    
+
+# controller_manager_ns: controller_manager
+# controller_list:
+#   - name: km1/arm_joint_controller
+#     action_ns: follow_joint_trajectory
+#     type: FollowJointTrajectory
+#     default: true
+#     joints:
+#       - joint1
+#       - joint2
+#       - joint3
+#       - joint4
+#       - joint5
+#       - joint6
+# initial:  # Define initial robot poses per group
+#   - group: manipulator
+#     pose: home
+# # Publish joint_states
+# joint_state_controller:
+#   type: joint_state_controller/JointStateController
+#   publish_rate: 50
+# joint_state_controller:
+#     type: joint_state_controller/JointStateController
+#     publish_rate: 50
+
+# Configure effort-based trajectory controller for the Panda arm
+# km1:
+#   arm_joint_controller:
+#     type: "position_controllers/JointTrajectoryController"
+#     joints:
+#       - joint1
+#       - joint2
+#       - joint3
+#       - joint4
+#       - joint5
+#       - joint6
+#     constraints:
+#       goal_time: 10.0
+#       stopped_velocity_tolerance: 0  # 停止时的速度容忍度
+#       joint1:
+#         goal: 0.01  # 每个关节的目标容忍度（位置误差）
+#         trajectory: 0.01  # 轨迹跟踪误差容忍度
+#       joint2:
+#         goal: 0.01
+#         trajectory: 0.01
+#       joint3:
+#         goal: 0.01  # 放宽 joint3 的位置误差要求
+#         trajectory: 0.01
+#       joint4:
+#         goal: 0.01
+#         trajectory: 0.01
+#       joint5:
+#         goal: 0.01
+#         trajectory: 0.01
+#       joint6:
+#         goal: 0.01
+#         trajectory: 0.01
+
+  # gazebo_ros_control:
+  #   pid_gains:
+  #     joint1:   {p: 1000.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+  #     joint2:   {p: 1000.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+  #     joint3:   {p: 1000.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+  #     joint4:   {p: 1000.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+  #     joint5:   {p: 1000.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+  #     joint6:   {p: 1000.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+
+  # state_publish_rate: 25
+
+controller_manager_ns: controller_manager
+controller_list:
+  - name: km1/arm_joint_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - joint1
+      - joint2
+      - joint3
+      - joint4
+      - joint5
+      - joint6
+initial:  # Define initial robot poses per group
+  - group: manipulator
+    pose: home

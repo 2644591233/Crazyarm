@@ -1,0 +1,41 @@
+km1:
+  arm_joint_controller:
+    type: "position_controllers/JointTrajectoryController"
+    joints:
+      - joint1
+      - joint2
+      - joint3
+      - joint4
+      - joint5
+      - joint6
+
+    constraints:
+      goal_time: 10.0
+      stopped_velocity_tolerance: 0  # 停止时的速度容忍度
+      joint1:
+        goal: 0.01  # 每个关节的目标容忍度（位置误差）
+        trajectory: 0.01  # 轨迹跟踪误差容忍度
+      joint2:
+        goal: 0.01
+        trajectory: 0.01
+      joint3:
+        goal: 0.01  # 放宽 joint3 的位置误差要求
+        trajectory: 0.01
+      joint4:
+        goal: 0.01
+        trajectory: 0.01
+      joint5:
+        goal: 0.01
+        trajectory: 0.01
+      joint6:
+        goal: 0.01
+        trajectory: 0.01
+
+  # gazebo_ros_control:
+  #   pid_gains:
+  #     joint1:   {p: 1.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+  #     joint2:   {p: 1.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+  #     joint3:   {p: 1.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+  #     joint4:   {p: 1.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+  #     joint5:   {p: 1.0, i: 0.0, d: 0.1, i_clamp: 0.0}
+  #     joint6:   {p: 1.0, i: 0.0, d: 0.1, i_clamp: 0.0}
