@@ -23,8 +23,10 @@ find_package(catkin REQUIRED COMPONENTS
   moveit_msgs
   geometry_msgs
   trajectory_msgs
+  sensor_msgs
   control_msgs
   controller_manager
+  serial
 )
 
 ## System dependencies are found with CMake's conventions
@@ -171,6 +173,12 @@ target_link_libraries(moveit_ik_demo ${catkin_LIBRARIES})
 
 add_executable(moveit_cartesian_demo src/moveit_cartesian_demo.cpp)
 target_link_libraries(moveit_cartesian_demo ${catkin_LIBRARIES})
+
+add_executable(trajectory_state_subscriber src/trajectory_state_subscriber.cpp)
+target_link_libraries(trajectory_state_subscriber ${catkin_LIBRARIES})
+
+add_executable(trajectory_to_serial src/trajectory_to_serial.cpp)
+target_link_libraries(trajectory_to_serial ${catkin_LIBRARIES})
 #############
 ## Install ##
 #############

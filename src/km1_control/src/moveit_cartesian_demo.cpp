@@ -56,26 +56,26 @@ int main(int argc, char **argv)
 	std::vector<geometry_msgs::Pose> waypoints;
 
     //将初始位姿加入路点列表
-	// waypoints.push_back(start_pose);
+	waypoints.push_back(start_pose);
 	
-    // start_pose.position.x += 0.05;
-    // start_pose.position.z -= 0.05;
-	// waypoints.push_back(start_pose);
+    start_pose.position.x += 0.05;
+    start_pose.position.z -= 0.05;
+	waypoints.push_back(start_pose);
     // geometry_msgs::Pose start_pose = arm.getCurrentPose(end_effector_link).pose;
 
     // std::vector<geometry_msgs::Pose> waypoints;
 
     // 计算圆上的点
-    const double radius = 0.02;
-    const int num_points = 100; // 圆上的点数
-    geometry_msgs::Pose pose = start_pose;
-    for (int i = 1; i < num_points; ++i)
-    {
-        double angle = 2 * M_PI * i / num_points; // 角度
-        pose.position.x += radius * cos(angle);
-        pose.position.z += radius * sin(angle);
-        waypoints.push_back(pose);
-    }
+    // const double radius = 0.02;
+    // const int num_points = 100; // 圆上的点数
+    // geometry_msgs::Pose pose = start_pose;
+    // for (int i = 1; i < num_points; ++i)
+    // {
+    //     double angle = 2 * M_PI * i / num_points; // 角度
+    //     pose.position.x += radius * cos(angle);
+    //     pose.position.z += radius * sin(angle);
+    //     waypoints.push_back(pose);
+    // }
     // start_pose.position.x += radius * cos(30/180*M_PI);
     // start_pose.position.z += radius * sin(90/180*M_PI);
     // waypoints.push_back(start_pose);
