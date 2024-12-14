@@ -59,7 +59,10 @@ void sendTrajectoryToSTM32(const control_msgs::FollowJointTrajectoryActionGoal::
 
         // 模拟发送间隔
         ros::Duration(0.5).sleep();
+        // stm32_serial.write("\0");
     }
+    uint8_t endMarker = '\0';
+    stm32_serial.write(&endMarker, 1);
 }
 
 int main(int argc, char** argv)
@@ -71,7 +74,7 @@ int main(int argc, char** argv)
     // 获取串口参数
     std::string port;
     int baudrate;
-    nh.param<std::string>("port", port, "/dev/ttyUSB0");
+    nh.param<std::string>("port", port, "/dev/ttyUSB1");
     nh.param<int>("baudrate", baudrate, 115200);
 
     // 初始化串口
