@@ -11,6 +11,7 @@ void initSerial(const std::string& port, uint32_t baudrate)
 {
     try
     {
+        ROS_INFO("Initializing serial port...");
         stm32_serial.setPort(port);
         stm32_serial.setBaudrate(baudrate);
         serial::Timeout to = serial::Timeout::simpleTimeout(1000);
@@ -20,10 +21,22 @@ void initSerial(const std::string& port, uint32_t baudrate)
         {
             ROS_INFO("Serial port initialized: %s at %d baud", port.c_str(), baudrate);
         }
-        else
-        {
-            ROS_ERROR("Failed to open serial port!");
+        else{
+            stm32_serial.setPort("/dev/ttyUSB1");
+            stm32_serial.setBaudrate(baudrate);
+            serial::Timeout to = serial::Timeout::simpleTimeout(1000);
+            stm32_serial.setTimeout(to);
+            stm32_serial.open();
+            if (stm32_serial.isOpen())
+            {
+                ROS_INFO("Serial port initialized: %s at %d baud", port.c_str(), baudrate);
+            }
+            else
+            {
+                ROS_ERROR("Failed to open serial port!");
+            }
         }
+        
     }
     catch (serial::IOException& e)
     {
@@ -58,12 +71,16 @@ void sendTrajectoryToSTM32(const control_msgs::FollowJointTrajectoryActionGoal::
         ROS_INFO("Sent: %s \n", data.c_str());
 
         // 模拟发送间隔
-        ros::Duration(0.5).sleep();
+        ros::Duration(0.2).sleep();
         // stm32_serial.write("\0");
     }
     uint8_t endMarker = '\0';
     stm32_serial.write(&endMarker, 1);
 }
+
+// bool isPortAvailable(const std::string& port) {
+//     return std::ifstream(port).is_open();
+// }
 
 int main(int argc, char** argv)
 {
@@ -73,9 +90,23 @@ int main(int argc, char** argv)
 
     // 获取串口参数
     std::string port;
+    std::string default_port = "/dev/ttyUSB0";
+    std::string alternative_port = "/dev/ttyUSB1";
+
+    // if(isPortAvailable(default_port)){
+    //     port = default_port;
+    // }else if(isPortAvailable(alternative_port)){
+    //     port = alternative_port;
+    // }
+    // else{
+    //     ROS_ERROR("No available serial port found. Please check your connections.");
+    //     return 1;
+    // }
+    // }
     int baudrate;
-    nh.param<std::string>("port", port, "/dev/ttyUSB1");
+    nh.param<std::string>("port", port, "/dev/ttyUSB0"); //Wait to add auto detect port
     nh.param<int>("baudrate", baudrate, 115200);
+    // ROS_INFO("Using port: %s, baudrate: %d", port.c_str(), baudrate);
 
     // 初始化串口
     initSerial(port, baudrate);
