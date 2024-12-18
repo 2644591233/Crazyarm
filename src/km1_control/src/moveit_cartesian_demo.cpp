@@ -19,6 +19,7 @@ limitations under the License.
 #include <moveit/robot_trajectory/robot_trajectory.h>
 #include <moveit/trajectory_processing/iterative_time_parameterization.h>
 #include <cmath>
+#define PI 3.14159265358979323846
 int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "moveit_cartesian_demo");
@@ -46,7 +47,7 @@ int main(int argc, char **argv)
     arm.setMaxVelocityScalingFactor(0.2);
 
     // 控制机械臂先回到初始化位置
-    arm.setNamedTarget("forward");
+    arm.setNamedTarget("prepared");
     arm.move();
     sleep(1);
 
@@ -56,11 +57,23 @@ int main(int argc, char **argv)
 	std::vector<geometry_msgs::Pose> waypoints;
 
     //将初始位姿加入路点列表
-	waypoints.push_back(start_pose);
-	
-    start_pose.position.x += 0.05;
-    start_pose.position.z -= 0.05;
-	waypoints.push_back(start_pose);
+	// waypoints.push_back(start_pose); //加了反而会报错ABORTED
+    const int num_points = 36;
+    double radius = 0.05;
+    // double step = M_PI
+    double stepsize = PI/num_points;
+    start_pose.position.y -= radius;
+    waypoints.push_back(start_pose);
+	for (int i = 2; i < num_points; i++){
+        // start_pose.position.x += radius * (sin(10*i/180*M_PI)-sin(10*(i-1)/180*M_PI));
+        // start_pose.position.y -= radius * (cos(10*i/180*M_PI)-cos(10*(i-1)/180*M_PI));
+        start_pose.position.x += radius * (sin(i*stepsize)-sin((i-1)*stepsize));
+        start_pose.position.y -= radius * (cos(i*stepsize)-cos((i-1)*stepsize));
+        waypoints.push_back(start_pose);
+    }
+    // start_pose.position.x += 0.05;
+    // // start_pose.position.z -= 0.05;
+	// waypoints.push_back(start_pose);
     // geometry_msgs::Pose start_pose = arm.getCurrentPose(end_effector_link).pose;
 
     // std::vector<geometry_msgs::Pose> waypoints;
@@ -89,7 +102,7 @@ int main(int argc, char **argv)
 
 	// 笛卡尔空间下的路径规划
 	moveit_msgs::RobotTrajectory trajectory;
-	const double jump_threshold = 0.0;
+	// const double jump_threshold = 0.0;
 	const double eef_step = 0.01;
 	double fraction = 0.0;
     int maxtries = 100;   //最大尝试规划次数
@@ -97,7 +110,7 @@ int main(int argc, char **argv)
 
     while(fraction < 1.0 && attempts < maxtries)
     {
-        fraction = arm.computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
+        fraction = arm.computeCartesianPath(waypoints, eef_step, trajectory);
         attempts++;
         
         if(attempts % 10 == 0)
@@ -122,7 +135,7 @@ int main(int argc, char **argv)
     }
 
     // 控制机械臂先回到初始化位置
-    arm.setNamedTarget("forward");
+    arm.setNamedTarget("prepared");
     arm.move();
     sleep(1);
 
